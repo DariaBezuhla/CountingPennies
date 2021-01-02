@@ -1,0 +1,22 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Theme.CountingPenniesApp" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">#FF03DAC5</item>
+        <item name="colorPrimaryVariant">#80CBC4</item>
+        <item name="colorAccent">#DFF8FDF8</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">#B2DFDB</item>
+        <item name="colorSecondaryVariant">#E57373</item>
+        <!-- <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item> -->
+    </style>
+
+    <!-- Status bar color. -->
+    <style name="DialogStyle" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+
+</resources>
+

@@ -1,0 +1,54 @@
+     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+
+         <EditText
+             android:id="@+id/spendingAmountView"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:background="@null"
+             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+             android:hint="00.00 €"
+             android:layout_marginHorizontal="30dp"
+             android:layout_marginTop="20dp" />
+
+
+         <Spinner
+             android:id="@+id/categories_spinner"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignParentEnd="true"
+             android:layout_alignParentRight="true"
+             android:layout_marginTop="20dp"
+             android:layout_marginEnd="20dp"
+             android:layout_marginRight="20dp" />
+
+         <EditText
+             android:id="@+id/spendingNameView"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:background="@null"
+             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+             android:hint= "i.e coffee, bills, dinner"
+             android:layout_marginHorizontal="30dp"
+             android:layout_below="@+id/spendingAmountView"/>
+
+
+
+    <Button
+        android:id="@+id/addingValueButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spendingNameView"
+        android:layout_alignParentEnd="true"
+        android:textSize="16sp"
+        android:text="Add"
+        android:textAllCaps="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginHorizontal="12dp"/>
+
+
+
+    </RelativeLayout>
