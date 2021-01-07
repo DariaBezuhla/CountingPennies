@@ -1,5 +1,7 @@
-package com.example.countingpenniesapp.Adapter;
+package com.example.countingpenniesapp.SpendingsAdapter;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,7 @@ public class SpendingsAdapter extends RecyclerView.Adapter<SpendingsAdapter.View
     private List<InsertedDataModel> spendingsList;
     private MainActivity activity;
     private DataBaseHandler db;
+    DialogInterface dialog;
 
     public SpendingsAdapter(DataBaseHandler db, MainActivity activity) {
         this.activity = activity;
@@ -55,12 +58,12 @@ public class SpendingsAdapter extends RecyclerView.Adapter<SpendingsAdapter.View
         notifyDataSetChanged();
     }
 
-
     public void deleteItem(int position) {
         InsertedDataModel item = spendingsList.get(position);
         db.deleteSpending(item.getId());
         spendingsList.remove(position);
         notifyItemRemoved(position);
+        activity.handleDialogClose(dialog);
     }
 
     public void editItem(int position) {
@@ -72,7 +75,6 @@ public class SpendingsAdapter extends RecyclerView.Adapter<SpendingsAdapter.View
         AddNewSpending fragment = new AddNewSpending();
         fragment.setArguments(bundle);
         fragment.show(activity.getSupportFragmentManager(), AddNewSpending.TAG);
-
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

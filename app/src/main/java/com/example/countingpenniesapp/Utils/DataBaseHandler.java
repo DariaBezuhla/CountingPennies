@@ -56,9 +56,7 @@ import java.util.List;
         contentValues.put(COLUMN_SPENDING_NAME, spending.getSpendingName());
         contentValues.put(COLUMN_SPENDING_VALUE, spending.getSpendingValue());
         contentValues.put(COLUMN_CATEGORY, spending.getCategory());
-        //contentValues.put(DATE.toString(), spending.getDate().toString());
         db.insert(SPENDINGS_TABLE, null, contentValues);
-
     }
 
     public List<InsertedDataModel> getAllSpendings() {

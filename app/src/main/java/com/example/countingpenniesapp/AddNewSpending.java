@@ -15,7 +15,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -86,10 +85,15 @@ public class AddNewSpending extends BottomSheetDialogFragment {
                 newSpendingSaveButton.setTextColor(ContextCompat.getColor(getContext(), R.color.colorSecondary));
         }
 
-
-        db = new DataBaseHandler(getActivity());
-        db.openDatabase();
-
+        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                categoryName = parent.getItemAtPosition(position).toString();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
         newSpendingName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -112,16 +116,6 @@ public class AddNewSpending extends BottomSheetDialogFragment {
         });
 
 
-        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                categoryName = parent.getItemAtPosition(position).toString();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-
 
         final boolean finalIsUpdated = isUpdate;
         // we trying to update existing task or create a new one
@@ -137,11 +131,9 @@ public class AddNewSpending extends BottomSheetDialogFragment {
                 //if update is false means i am trying to create a new entry
                 InsertedDataModel newSpending = new InsertedDataModel();
                 newSpending.setSpendingName(name);
-                newSpending.setSpendingValue("€ " + value);
+                newSpending.setSpendingValue(value);
                 newSpending.setCategory(categoryName);
                 db.insertSpending(newSpending);
-
-                //TODO: add DATE?
             }
             dismiss();
         });
@@ -151,8 +143,6 @@ public class AddNewSpending extends BottomSheetDialogFragment {
     @Override
     public void onDismiss(@NonNull DialogInterface dialog) {
         Activity activity = getActivity();
-        //TODO: maybe transfer to the java package?
-        //interface which will contain functions for db tasks suchs as refreshing and updatign etc. can be in JAVA package?
         if (activity instanceof DialogCloseListener) {
             ((DialogCloseListener) activity).handleDialogClose(dialog);
         }
