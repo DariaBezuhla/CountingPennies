@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -30,10 +31,11 @@ public class AddNewSpending extends BottomSheetDialogFragment {
 
     private EditText newSpendingName;
     private EditText newSpendingValue;
-    private Spinner categorySpinner;
+    public Spinner categorySpinner;
     private String categoryName;
     private Button newSpendingSaveButton;
     private DataBaseHandler db;
+    private boolean isUpdate;
 
     public static AddNewSpending newInstance() {
         return new AddNewSpending();
@@ -54,9 +56,7 @@ public class AddNewSpending extends BottomSheetDialogFragment {
     }
 
 
-    @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void initializeView() {
         newSpendingName = requireView().findViewById(R.id.spendingNameView);
         newSpendingValue = getView().findViewById(R.id.spendingAmountView);
         newSpendingSaveButton = getView().findViewById(R.id.addingValueButton);
@@ -66,24 +66,54 @@ public class AddNewSpending extends BottomSheetDialogFragment {
                 R.array.categories_types, android.R.layout.simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(adapter);
+    }
 
-
-        db = new DataBaseHandler(getActivity());
-        db.openDatabase();
-
-        boolean isUpdate = false;
-        final Bundle bundle = getArguments();
-        if (bundle != null) {
-            isUpdate = true;
-            String spending = bundle.getString("spendingName");
-            String spendingValue = bundle.getString("spendingValue");
+    public void setDialogValuesFromBundle(Bundle itemBundle) {
+        if (itemBundle != null) {
+            String spending = itemBundle.getString("spendingName");
+            String spendingValue = itemBundle.getString("spendingValue");
             newSpendingName.setText(spending);
             newSpendingValue.setText(spendingValue);
-
+         //   categorySpinner.setSelection(spendingCategoryPosition);
 
             if (spending.length() > 0)
                 newSpendingSaveButton.setTextColor(ContextCompat.getColor(getContext(), R.color.colorSecondary));
         }
+    }
+
+    public void handleDialogSubmission(Bundle itemBundle) {
+        String name = newSpendingName.getText().toString();
+        String value = newSpendingValue.getText().toString();
+        //if isUpdate is true - we will update a spending
+        if (isUpdate) {
+            db.updateSpendingName(itemBundle.getInt("id"), name);
+            db.updateSpendingValue(itemBundle.getInt("id"), value);
+            db.updateCategory(itemBundle.getInt("id"), categoryName);
+        } else if (!name.isEmpty() && !value.isEmpty()) {
+            //if isUpdate is false - we will create a new spending
+            InsertedDataModel newSpending = new InsertedDataModel();
+            newSpending.setSpendingName(name);
+            newSpending.setSpendingValue(value);
+            newSpending.setCategory(categoryName);
+            db.insertSpending(newSpending);
+        }
+    }
+
+
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        initializeView();
+
+        db = new DataBaseHandler(getActivity());
+        db.openDatabase();
+
+
+        //if the ItemBundle is not empty means we are setting the existing values to the view
+        final Bundle itemBundle = getArguments();
+        isUpdate = itemBundle != null;
+        setDialogValuesFromBundle(itemBundle);
 
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -115,26 +145,9 @@ public class AddNewSpending extends BottomSheetDialogFragment {
             }
         });
 
-
-
-        final boolean finalIsUpdated = isUpdate;
-        // we trying to update existing task or create a new one
+        //updating existing task or create a new one
         newSpendingSaveButton.setOnClickListener(v -> {
-            String name = newSpendingName.getText().toString();
-            String value = newSpendingValue.getText().toString();
-
-            if (finalIsUpdated) {
-                db.updateSpendingName(bundle.getInt("id"), name);
-                db.updateSpendingValue(bundle.getInt("id"), value);
-                db.updateCategory(bundle.getInt("id"), categoryName);
-            } else if (!name.isEmpty() && !value.isEmpty()) {
-                //if update is false means i am trying to create a new entry
-                InsertedDataModel newSpending = new InsertedDataModel();
-                newSpending.setSpendingName(name);
-                newSpending.setSpendingValue(value);
-                newSpending.setCategory(categoryName);
-                db.insertSpending(newSpending);
-            }
+         handleDialogSubmission(itemBundle);
             dismiss();
         });
     }

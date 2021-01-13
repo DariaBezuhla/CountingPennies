@@ -1,22 +1,20 @@
 package com.example.countingpenniesapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.countingpenniesapp.SpendingsAdapter.SpendingsAdapter;
 import com.example.countingpenniesapp.Utils.DataBaseHandler;
 import com.example.countingpenniesapp.model.InsertedDataModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
     private RecyclerView spendingsRecyclerView;
     private SpendingsAdapter spendingsAdapter;
     private FloatingActionButton fab;
-    private List<InsertedDataModel> spendingsList;
+    public List<InsertedDataModel> spendingsList;
     private DataBaseHandler db;
     private TextView currentBalance;
     Locale locale = Locale.ENGLISH;

@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import com.example.countingpenniesapp.model.InsertedDataModel;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,9 +21,7 @@ import java.util.List;
      private static final String COLUMN_SPENDING_NAME = "spendingName";
      private static final String COLUMN_CATEGORY = "category";
 
-     //TODO: ADD DATE IF YOU HAVE TIME
-
-     private SQLiteDatabase db;
+     public SQLiteDatabase db;
 
      public DataBaseHandler(Context context) {
          super(context, NAME, null, VERSION);
@@ -75,8 +72,6 @@ import java.util.List;
                         spending.setSpendingName(cursor.getString(cursor.getColumnIndex(COLUMN_SPENDING_NAME)));
                         spending.setSpendingValue(cursor.getString(cursor.getColumnIndex(COLUMN_SPENDING_VALUE)));
                         spending.setCategory(cursor.getString(cursor.getColumnIndex(COLUMN_CATEGORY)));
-                        //TODO: ADD DATE IF YOU HAVE TIME
-                        //spending.setDate(cursor.getString(cursor.getColumnIndex(DATE)));
                         spendingsList.add(spending);
                     } while (cursor.moveToNext());
                 }

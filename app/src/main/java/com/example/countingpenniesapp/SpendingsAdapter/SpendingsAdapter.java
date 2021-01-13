@@ -1,7 +1,6 @@
 package com.example.countingpenniesapp.SpendingsAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,11 +15,12 @@ import com.example.countingpenniesapp.MainActivity;
 import com.example.countingpenniesapp.R;
 import com.example.countingpenniesapp.Utils.DataBaseHandler;
 import com.example.countingpenniesapp.model.InsertedDataModel;
+
 import java.util.List;
 
 public class SpendingsAdapter extends RecyclerView.Adapter<SpendingsAdapter.ViewHolder> {
 
-    private List<InsertedDataModel> spendingsList;
+    protected List<InsertedDataModel> spendingsList;
     private MainActivity activity;
     private DataBaseHandler db;
     DialogInterface dialog;
@@ -68,12 +68,12 @@ public class SpendingsAdapter extends RecyclerView.Adapter<SpendingsAdapter.View
 
     public void editItem(int position) {
         InsertedDataModel item = spendingsList.get(position);
-        Bundle bundle = new Bundle();
-        bundle.putInt("id", item.getId());
-        bundle.putString("spendingName", item.getSpendingName());
-        bundle.putString("spendingValue", item.getSpendingValue());
+        Bundle itemBundle = new Bundle();
+        itemBundle.putInt("id", item.getId());
+        itemBundle.putString("spendingName", item.getSpendingName());
+        itemBundle.putString("spendingValue", item.getSpendingValue());
         AddNewSpending fragment = new AddNewSpending();
-        fragment.setArguments(bundle);
+        fragment.setArguments(itemBundle);
         fragment.show(activity.getSupportFragmentManager(), AddNewSpending.TAG);
     }
 

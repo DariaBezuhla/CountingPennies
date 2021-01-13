@@ -1,14 +1,11 @@
 package com.example.countingpenniesapp.model;
 
-import java.util.Date;
-
 public class InsertedDataModel {
 
     private int id;
     private String spendingValue;
     private String spendingName;
     private String category;
-    private Date date;
 
     public int getId() {
         return id;
@@ -37,14 +34,5 @@ public class InsertedDataModel {
     public String getCategory() { return category; }
 
     public void setCategory(String category) { this.category = category; }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
 
 }
